@@ -1,3 +1,9 @@
+# ![AWS](aws-logo.png) Lambda Layer
+
+Purpose: Provision a Lambda Layer in AWS.
+
+Rationale: Provide templates for Lambda dependencies.
+
 ## Requirements
 
 No requirements.
