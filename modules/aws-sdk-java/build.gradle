@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "com.amazonaws:aws-java-sdk-lambda:$awsSdkVersion"
+}
+
+task copyDeps(type: Copy) {
+    from configurations.compile
+    into 'build/layer/java/libs'
+}
+
+build.dependsOn copyDeps

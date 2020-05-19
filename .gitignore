@@ -1,0 +1,4 @@
+# Created by .ignore support plugin (hsz.mobi)
+terraform-aws-lambda-layer.iml
+.terraform/
+.gradle/
