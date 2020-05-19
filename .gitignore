@@ -2,3 +2,6 @@
 terraform-aws-lambda-layer.iml
 .terraform/
 .gradle/
+build/
+packages/
+*.zip
