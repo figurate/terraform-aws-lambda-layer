@@ -10,7 +10,9 @@ No requirements.
 
 ## Inputs
 
-No input.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| build\_frequency | Indicates how often the build job should run (`once`, `weekly`, `daily`, `hourly`, `always`) | `string` | `"daily"` | no |
 
 ## Outputs
 

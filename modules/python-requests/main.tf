@@ -1,6 +1,6 @@
 resource "null_resource" "build" {
   triggers = {
-    always_run = timestamp()
+    build = local.build_triggers[var.build_frequency]
   }
   provisioner "local-exec" {
     command = "pip3 install requests --target ${path.module}/packages/python"
