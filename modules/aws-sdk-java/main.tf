@@ -11,9 +11,9 @@ module "lambda_layer" {
   source = "../.."
 
   content_path = "${path.module}/build/layer"
-  description = "Java implementation of the AWS SDK"
-  layer_name = "aws-sdk-java"
-  runtimes = ["java8"]
+  description  = "Java implementation of the AWS SDK"
+  layer_name   = "aws-sdk-java"
+  runtimes     = ["java8"]
 
-//  depends_on = [null_resource.build]
+  //  depends_on = [null_resource.build]
 }

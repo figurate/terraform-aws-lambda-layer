@@ -11,9 +11,9 @@ module "lambda_layer" {
   source = "../.."
 
   content_path = "${path.module}/build/layer"
-  description = "Groovy runtime libraries"
-  layer_name = "groovy-runtime"
-  runtimes = ["java8"]
+  description  = "Groovy runtime libraries"
+  layer_name   = "groovy-runtime"
+  runtimes     = ["java8"]
 
-//  depends_on = [null_resource.build]
+  //  depends_on = [null_resource.build]
 }

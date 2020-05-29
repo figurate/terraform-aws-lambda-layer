@@ -10,19 +10,19 @@ clean:
 	rm -rf .terraform/
 
 test:
-	$(TERRAFORM) init && $(TERRAFORM) validate
-
-aws-sdk-java:
-	$(TERRAFORM) init modules/aws-sdk-java && $(TERRAFORM) plan modules/aws-sdk-java
-
-groovy-runtime:
-	$(TERRAFORM) init modules/groovy-runtime && $(TERRAFORM) plan modules/groovy-runtime
-
-python-requests:
-	$(TERRAFORM) init modules/python-requests && $(TERRAFORM) plan modules/python-requests
+	$(TERRAFORM) init && $(TERRAFORM) validate && \
+		$(TERRAFORM) init modules/aws-sdk-java && $(TERRAFORM) validate modules/aws-sdk-java
+		$(TERRAFORM) init modules/groovy-runtime && $(TERRAFORM) validate modules/groovy-runtime
+		$(TERRAFORM) init modules/python-requests && $(TERRAFORM) validate modules/python-requests
 
 docs:
-	docker run --rm -v "${PWD}:/work" tmknom/terraform-docs markdown ./ >./README.md
+	docker run --rm -v "${PWD}:/work" tmknom/terraform-docs markdown ./ >./README.md && \
+		docker run --rm -v "${PWD}:/work" tmknom/terraform-docs markdown ./modules/aws-sdk-java >./modules/aws-sdk-java/README.md
+		docker run --rm -v "${PWD}:/work" tmknom/terraform-docs markdown ./modules/groovy-runtime >./modules/groovy-runtime/README.md
+		docker run --rm -v "${PWD}:/work" tmknom/terraform-docs markdown ./modules/python-requests >./modules/python-requests/README.md
 
 format:
-	$(TERRAFORM) fmt -list=true ./
+	$(TERRAFORM) fmt -list=true ./ && \
+		$(TERRAFORM) fmt -list=true ./modules/aws-sdk-java
+		$(TERRAFORM) fmt -list=true ./modules/groovy-runtime
+		$(TERRAFORM) fmt -list=true ./modules/python-requests
