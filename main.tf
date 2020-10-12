@@ -1,6 +1,8 @@
 /**
  * # ![AWS](aws-logo.png) Lambda Layer
  *
+ *
+ * ![AWS Lambda Layer](aws_lambda_layer.png)
  * Purpose: Provision a Lambda Layer in AWS.
  *
  * Rationale: Provide templates for Lambda dependencies.
