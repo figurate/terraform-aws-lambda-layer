@@ -12,6 +12,7 @@ data "archive_file" "layer" {
 }
 
 resource "aws_lambda_layer_version" "layer" {
+  count               = var.dry_run ? 0 : 1
   filename            = data.archive_file.layer.output_path
   layer_name          = var.layer_name
   description         = var.description

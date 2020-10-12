@@ -14,3 +14,8 @@ variable "runtimes" {
   description = "List of compatible runtimes for the lambda layer"
   type        = list(string)
 }
+
+variable "dry_run" {
+  description = "Flag to disable lambda layer deployment"
+  default     = true
+}
