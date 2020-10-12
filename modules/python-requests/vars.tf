@@ -1,4 +1,4 @@
-variable "build_frequency" {
-  description = "Indicates how often the build job should run (`once`, `weekly`, `daily`, `hourly`, `always`)"
-  default     = "daily"
+variable "dry_run" {
+  description = "Flag to disable lambda layer deployment"
+  default     = true
 }

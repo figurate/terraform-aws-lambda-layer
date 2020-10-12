@@ -1,19 +1,17 @@
-resource "null_resource" "build" {
-  triggers = {
-    build = local.build_triggers[var.build_frequency]
-  }
-  provisioner "local-exec" {
-    command = "pip3 install requests --target ${path.module}/packages/python"
-  }
+module "build" {
+  source = "figurate/docker-container/docker//modules/python"
+
+  command = ["pip3", "install", "requests", "--target", "${path.root}/packages/python"]
 }
 
 module "lambda_layer" {
   source = "../.."
 
-  content_path = "${path.module}/packages/python"
+  content_path = "${path.rot}/packages/python"
   description  = "Python requests package plus dependencies"
   layer_name   = "python-requests"
   runtimes     = ["python3.6"]
+  dry_run      = var.dry_run
 
-  //  depends_on = [null_resource.build]
+  depends_on = [module.build]
 }
