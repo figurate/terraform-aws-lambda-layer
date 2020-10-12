@@ -4,15 +4,13 @@ No requirements.
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| null | n/a |
+No provider.
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| build\_frequency | Indicates how often the build job should run (`once`, `weekly`, `daily`, `hourly`, `always`) | `string` | `"daily"` | no |
+| dry\_run | Flag to disable lambda layer deployment | `bool` | `true` | no |
 
 ## Outputs
 
