@@ -5,3 +5,4 @@ terraform-aws-lambda-layer.iml
 build/
 packages/
 *.zip
+terraform.tfstate*
