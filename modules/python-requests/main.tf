@@ -3,7 +3,7 @@ module "build" {
   version = "1.0.9"
 
   host_path = abspath(path.module)
-  command   = ["pip3", "install", "requests", "--target", "packages/python"]
+  command   = ["pip3", "install", "requests", "--target", "/work/packages/python"]
 }
 
 module "lambda_layer" {
