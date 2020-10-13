@@ -1,5 +1,7 @@
 module "build" {
   source = "figurate/docker-container/docker//modules/gradle"
+
+  host_path = abspath(path.root)
 }
 
 module "lambda_layer" {
