@@ -17,7 +17,7 @@ EXAMPLE=$(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
 all: validate test docs format
 
 clean:
-	rm -rf .terraform/
+	rm -rf .terraform/ terraform.tfstate* examples/ical4j/build ical4j.zip
 
 validate:
 	$(TERRAFORM) init && $(TERRAFORM) validate && \
