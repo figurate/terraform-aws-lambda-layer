@@ -1,14 +1,16 @@
 SHELL:=/bin/bash
+AWS_DEFAULT_REGION?=ap-southeast-2
+
 TERRAFORM_VERSION=0.13.4
 TERRAFORM=docker run --rm -v "${PWD}:/work" -v "${HOME}:/root" -e AWS_DEFAULT_REGION=$(AWS_DEFAULT_REGION) -e http_proxy=$(http_proxy) --net=host -w /work hashicorp/terraform:$(TERRAFORM_VERSION)
 
 TERRAFORM_DOCS=docker run --rm -v "${PWD}:/work" tmknom/terraform-docs
 
-CHECKOV=docker run --rm -t -v "${PWD}:/work" bridgecrew/checkov
+CHECKOV=docker run --rm -v "${PWD}:/work" bridgecrew/checkov
 
-TFSEC=docker run --rm -it -v "${PWD}:/work" liamg/tfsec
+TFSEC=docker run --rm -v "${PWD}:/work" liamg/tfsec
 
-DIAGRAMS=docker run -t -v "${PWD}:/work" figurate/diagrams python
+DIAGRAMS=docker run -v "${PWD}:/work" figurate/diagrams python
 
 EXAMPLE=$(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
 
@@ -17,7 +19,7 @@ EXAMPLE=$(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
 all: validate test docs format
 
 clean:
-	rm -rf .terraform/ terraform.tfstate* examples/ical4j/build ical4j.zip
+	rm -rf .terraform/ terraform.tfstate* examples/ical4j/build ical4j.zip opentracing.zip
 
 validate:
 	$(TERRAFORM) init && $(TERRAFORM) validate && \
@@ -50,7 +52,8 @@ format:
 		$(TERRAFORM) fmt -list=true ./modules/aws-sdk-java && \
 		$(TERRAFORM) fmt -list=true ./modules/groovy-runtime && \
 		$(TERRAFORM) fmt -list=true ./modules/python-requests && \
-		$(TERRAFORM) fmt -list=true ./examples/ical4j
+		$(TERRAFORM) fmt -list=true ./examples/ical4j && \
+		$(TERRAFORM) fmt -list=true ./examples/opentracing
 
 example:
-	$(TERRAFORM) init examples/$(EXAMPLE) && $(TERRAFORM) plan examples/$(EXAMPLE)
+	$(TERRAFORM) init -upgrade examples/$(EXAMPLE) && $(TERRAFORM) plan examples/$(EXAMPLE)

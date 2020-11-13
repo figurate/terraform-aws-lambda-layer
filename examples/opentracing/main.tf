@@ -8,8 +8,8 @@ module "lambda_layer" {
   source = "../.."
 
   content_path = "${module.build.output_dir}/layer"
-  description  = "iCal4j java library"
-  layer_name   = "ical4j"
+  description  = "Open Tracing java library"
+  layer_name   = "opentracing"
   runtimes     = ["java8"]
   dry_run      = var.dry_run
 
