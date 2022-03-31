@@ -2,30 +2,24 @@ SHELL:=/bin/bash
 include .env
 
 EXAMPLE=$(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
+VERSION=$(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
 
-.PHONY: all clean validate test docs format
+.PHONY: all clean validate test diagram docs format release
 
-all: validate test docs format
+all: test docs format
 
 clean:
 	rm -rf .terraform/ terraform.tfstate* examples/ical4j/build ical4j.zip opentracing.zip
 
 validate:
-	$(TERRAFORM) init && $(TERRAFORM) validate && \
-		$(TERRAFORM) init modules/aws-sdk-java && $(TERRAFORM) validate modules/aws-sdk-java && \
-		$(TERRAFORM) init modules/groovy-runtime && $(TERRAFORM) validate modules/groovy-runtime && \
-		$(TERRAFORM) init modules/python-requests && $(TERRAFORM) validate modules/python-requests
+	$(TERRAFORM) init -upgrade && $(TERRAFORM) validate && \
+		$(TERRAFORM) -chdir=modules/aws-sdk-java init -upgrade && $(TERRAFORM) -chdir=modules/aws-sdk-java validate && \
+		$(TERRAFORM) -chdir=modules/groovy-runtime init -upgrade && $(TERRAFORM) -chdir=modules/groovy-runtime validate && \
+		$(TERRAFORM) -chdir=modules/python-requests init -upgrade && $(TERRAFORM) -chdir=modules/python-requests validate
 
 test: validate
-	$(CHECKOV) -d /work && \
-		$(CHECKOV) -d /work/modules/aws-sdk-java && \
-		$(CHECKOV) -d /work/modules/groovy-runtime && \
-		$(CHECKOV) -d /work/modules/python-requests
-
-	$(TFSEC) /work && \
-		$(TFSEC) /work/modules/aws-sdk-java && \
-		$(TFSEC) /work/modules/groovy-runtime && \
-		$(TFSEC) /work/modules/python-requests
+	$(CHECKOV) -d /work
+	$(TFSEC) /work
 
 diagram:
 	$(DIAGRAMS) diagram.py
@@ -45,4 +39,7 @@ format:
 		$(TERRAFORM) fmt -list=true ./examples/opentracing
 
 example:
-	$(TERRAFORM) init -upgrade examples/$(EXAMPLE) && $(TERRAFORM) plan examples/$(EXAMPLE)
+	$(TERRAFORM) -chdir=examples/$(EXAMPLE) init -upgrade && $(TERRAFORM) -chdir=examples/$(EXAMPLE) plan -input=false
+
+release: test
+	git tag $(VERSION) && git push --tags
