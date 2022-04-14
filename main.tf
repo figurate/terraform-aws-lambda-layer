@@ -1,6 +1,9 @@
 /**
  * # ![AWS](aws-logo.png) Lambda Layer
  *
+ * [![CI](https://github.com/figurate/terraform-aws-lambda-layer/actions/workflows/main.yml/badge.svg)](https://github.com/figurate/terraform-aws-lambda-layer/actions/workflows/main.yml)
+ *
+ *
  *
  * ![AWS Lambda Layer](aws_lambda_layer.png)
  * Purpose: Provision a Lambda Layer in AWS.
