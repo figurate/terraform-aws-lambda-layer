@@ -12,10 +12,7 @@ clean:
 	rm -rf .terraform/ terraform.tfstate* examples/ical4j/build ical4j.zip opentracing.zip
 
 validate:
-	$(TERRAFORM) init -upgrade && $(TERRAFORM) validate && \
-		$(TERRAFORM) -chdir=modules/aws-sdk-java init -upgrade && $(TERRAFORM) -chdir=modules/aws-sdk-java validate && \
-		$(TERRAFORM) -chdir=modules/groovy-runtime init -upgrade && $(TERRAFORM) -chdir=modules/groovy-runtime validate && \
-		$(TERRAFORM) -chdir=modules/python-requests init -upgrade && $(TERRAFORM) -chdir=modules/python-requests validate
+	$(TERRAFORM) init  && $(TERRAFORM) validate
 
 test: validate
 	$(CHECKOV) -d /work
@@ -31,15 +28,10 @@ docs: diagram
 		docker run --rm -v "${PWD}:/work" tmknom/terraform-docs markdown ./modules/python-requests >./modules/python-requests/README.md
 
 format:
-	$(TERRAFORM) fmt -list=true ./ && \
-		$(TERRAFORM) fmt -list=true ./modules/aws-sdk-java && \
-		$(TERRAFORM) fmt -list=true ./modules/groovy-runtime && \
-		$(TERRAFORM) fmt -list=true ./modules/python-requests && \
-		$(TERRAFORM) fmt -list=true ./examples/ical4j && \
-		$(TERRAFORM) fmt -list=true ./examples/opentracing
+	$(TERRAFORM) fmt -list=true -recursive
 
 example:
-	$(TERRAFORM) -chdir=examples/$(EXAMPLE) init -upgrade && $(TERRAFORM) -chdir=examples/$(EXAMPLE) plan -input=false
+	$(TERRAFORM) -chdir=examples/$(EXAMPLE) init  && $(TERRAFORM) -chdir=examples/$(EXAMPLE) plan -input=false
 
 release: test
 	git tag $(VERSION) && git push --tags
